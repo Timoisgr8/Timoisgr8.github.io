@@ -1,6 +1,5 @@
 display=true
-description=Custom description shown instead of GitHub's.
 featured=true
-demo=https://your-live-demo.com
+demo=Timoisgr8.github.io
 tags=webgpu,graphics,creative
 order=1
