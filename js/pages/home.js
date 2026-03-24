@@ -28,7 +28,7 @@ export async function renderHome() {
             <span id="gpu-label">WebGPU</span>
           </span>
         </p>
-        <h1>Hi, I'm <em>Timo</em> —<br>a developer who builds things.</h1>
+        <h1>Hi, I'm <em>Timothy Tew</em> —<br>a developer who builds things.</h1>
         <p class="lead" id="hero-bio">
           Passionate about pushing the web forward with modern graphics APIs,
           creative tooling, and open source. Welcome to my corner of GitHub.
