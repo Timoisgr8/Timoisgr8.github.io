@@ -49,8 +49,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font);
-  /* background: var(--bg); */
-  background: transparent;
+  background: var(--bg);
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;

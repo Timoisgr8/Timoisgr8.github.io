@@ -9,4 +9,4 @@ addRoute('project/:name',   renderProject);
 
 // ── Boot ──────────────────────────────────────────────────────────────────
 initRouter();
-initBackground();
+// initBackground();

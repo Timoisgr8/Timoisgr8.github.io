@@ -4,9 +4,9 @@ import { renderNav } from '../components/nav.js';
 
 // Cache so navigating back doesn't re-fetch
 let cachedProjects = null;
-let cachedProfile  = null;
-let activeFilter   = 'all';
-let searchQuery    = '';
+let cachedProfile = null;
+let activeFilter = 'all';
+let searchQuery = '';
 
 export async function renderHome() {
   renderNav();
@@ -23,10 +23,6 @@ export async function renderHome() {
       <section class="section hero" id="about">
         <p class="hero-eyebrow">
           Portfolio
-          <span class="gpu-badge" id="gpu-badge">
-            <span class="gpu-dot"></span>
-            <span id="gpu-label">WebGPU</span>
-          </span>
         </p>
         <h1>Hi, I'm <em>Timothy Tew</em> —<br>a developer who builds things.</h1>
         <p class="lead" id="hero-bio">
@@ -54,12 +50,9 @@ export async function renderHome() {
         <p class="section-label">Tech Stack</p>
         <h2>Skills &amp; Technologies</h2>
         <div class="skills-grid" id="skills-grid">
-          <span class="skill-tag featured">WebGPU</span>
           <span class="skill-tag featured">JavaScript</span>
           <span class="skill-tag featured">TypeScript</span>
           <span class="skill-tag">HTML / CSS</span>
-          <span class="skill-tag">WebGL</span>
-          <span class="skill-tag">WGSL</span>
           <span class="skill-tag">Node.js</span>
           <span class="skill-tag">Python</span>
           <span class="skill-tag">React</span>
@@ -110,7 +103,7 @@ export async function renderHome() {
       </section>
 
       <footer>
-        <p>Built with the GitHub API &amp; WebGPU · <a href="https://github.com/${GITHUB_USER_NAME}" target="_blank">@${GITHUB_USER_NAME}</a> · ${new Date().getFullYear()}</p>
+        <p>Built with the GitHub API · <a href="https://github.com/${GITHUB_USER_NAME}" target="_blank">@${GITHUB_USER_NAME}</a> · ${new Date().getFullYear()}</p>
       </footer>
     </div>
   `;
@@ -132,7 +125,7 @@ async function loadData() {
   try {
     // Load profile and projects in parallel
     [cachedProfile, cachedProjects] = await Promise.all([
-      cachedProfile  ?? fetchProfile(),
+      cachedProfile ?? fetchProfile(),
       cachedProjects ?? fetchProjects(),
     ]);
 
@@ -143,20 +136,25 @@ async function loadData() {
     }
 
     // Add discovered languages to skills
-    const seenLangs = new Set(cachedProjects.map(p => p.language).filter(Boolean));
     const skillGrid = document.getElementById('skills-grid');
     if (skillGrid) {
-      seenLangs.forEach(lang => {
-        if (!skillGrid.querySelector(`[data-lang="${lang}"]`)) {
+      const existingLangs = new Set(
+        Array.from(skillGrid.querySelectorAll('.skill-tag'))
+          .map(el => (el.dataset.lang || el.textContent).trim().toLowerCase())
+      );
+
+      cachedProjects.forEach(p => {
+        const lang = p.language?.trim();
+        if (lang && !existingLangs.has(lang.toLowerCase())) {
           const tag = document.createElement('span');
           tag.className = 'skill-tag';
           tag.dataset.lang = lang;
           tag.textContent = lang;
           skillGrid.appendChild(tag);
+          existingLangs.add(lang.toLowerCase());
         }
       });
     }
-
     renderLanguageFilters();
     renderFiltered();
   } catch (err) {
@@ -194,13 +192,13 @@ function renderLanguageFilters() {
 }
 
 function renderFiltered() {
-  const grid      = document.getElementById('repos-grid');
-  const countEl   = document.getElementById('repo-count');
+  const grid = document.getElementById('repos-grid');
+  const countEl = document.getElementById('repo-count');
   if (!grid || !cachedProjects) return;
 
   const q = searchQuery.toLowerCase();
   const filtered = cachedProjects.filter(p => {
-    const matchLang   = activeFilter === 'all' || p.language === activeFilter;
+    const matchLang = activeFilter === 'all' || p.language === activeFilter;
     const matchSearch = !q ||
       p.name.toLowerCase().includes(q) ||
       p.description.toLowerCase().includes(q) ||
