@@ -1,10 +1,10 @@
 import { navigate } from '../router.js';
 
 const NAV_LINKS = [
-  { label: 'About',    hash: '#/' },
-  { label: 'Skills',   hash: '#/' },
-  { label: 'Projects', hash: '#/' },
-  { label: 'Contact',  hash: '#/' },
+  { label: 'About', hash: '#/about' },
+  { label: 'Skills', hash: '#/skills' },
+  { label: 'Projects', hash: '#/projects' },
+  { label: 'Contact', hash: '#/contact' },
 ];
 
 export function renderNav({ showBack = false, backLabel = 'All projects' } = {}) {
@@ -24,8 +24,8 @@ export function renderNav({ showBack = false, backLabel = 'All projects' } = {})
          </button>`
       : `<ul class="nav-links">
            ${NAV_LINKS.map(l =>
-             `<li><a href="${l.hash}">${l.label}</a></li>`
-           ).join('')}
+        `<li><a href="${l.hash}">${l.label}</a></li>`
+      ).join('')}
          </ul>`
     }
   `;
