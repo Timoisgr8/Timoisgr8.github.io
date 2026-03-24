@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timoisgr8 — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --surface-raised: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.14);
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6b6b;
+    --text-muted: #9a9a9a;
+    --accent: #2563eb;
+    --accent-light: #eff4ff;
+    --accent-text: #1d4ed8;
+    --green: #16a34a;
+    --green-light: #f0fdf4;
+    --amber: #d97706;
+    --amber-light: #fffbeb;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.05);
+    --font: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+    --transition: 0.18s ease;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(248,247,244,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-brand span { color: var(--accent); }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition);
+    font-weight: 400;
+  }
+  .nav-links a:hover { color: var(--text-primary); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 5rem 2rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* WebGPU canvas behind hero */
+  #gpu-canvas {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    opacity: 0.35;
+  }
+  .hero-content { position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+    color: var(--text-primary);
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-bio {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .hero-actions {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: var(--font);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition);
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: #1d4ed8; border-color: #1d4ed8; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+  .btn-outline:hover { background: var(--surface); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+  .section + .section { padding-top: 0; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 1.5rem;
+  }
+  .skill-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    transition: all var(--transition);
+  }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent-text); background: var(--accent-light); }
+  .skill-tag.featured {
+    background: var(--accent-light);
+    border-color: rgba(37,99,235,0.2);
+    color: var(--accent-text);
+    font-weight: 500;
+  }
+
+  /* ── REPO GRID ── */
+  .repos-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px;
+  }
+  .filter-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: var(--font);
+    transition: all var(--transition);
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent-text); }
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .search-box {
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-family: var(--font);
+    font-size: 14px;
+    background: var(--surface);
+    color: var(--text-primary);
+    transition: border-color var(--transition);
+    outline: none;
+  }
+  .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); pointer-events: none;
+  }
+
+  .repos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .repo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    transition: all var(--transition);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .repo-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .repo-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .repo-card:hover::before { transform: scaleX(1); }
+
+  .repo-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .repo-name {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    word-break: break-word;
+  }
+  .repo-visibility {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: var(--accent-light);
+    color: var(--accent-text);
+    white-space: nowrap;
+    margin-left: 8px;
+    font-weight: 500;
+  }
+  .repo-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    flex: 1;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .repo-footer {
+    display: flex; align-items: center; gap: 14px;
+    margin-top: auto;
+    flex-wrap: wrap;
+  }
+  .repo-stat {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+  .repo-lang {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-left: auto;
+  }
+  .lang-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .repo-updated {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+    margin-top: 8px;
+  }
+
+  /* ── STATE MESSAGES ── */
+  .state-box {
+    grid-column: 1/-1;
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .state-box .state-icon {
+    font-size: 2rem; margin-bottom: 0.75rem;
+    display: block;
+  }
+  .state-box p { font-size: 14px; }
+
+  /* Skeleton loaders */
+  .skeleton {
+    background: linear-gradient(90deg, var(--border) 25%, rgba(0,0,0,0.03) 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 4px;
+  }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+  .skeleton-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  /* ── CONTACT ── */
+  .contact-links {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 1.5rem;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 400;
+    transition: all var(--transition);
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent-text);
+    background: var(--accent-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  .contact-link svg { flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* ── PORTFOLIO FILE INFO ── */
+  .info-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 1.5rem;
+    line-height: 1.7;
+  }
+  .info-box code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--accent-text);
+  }
+
+  /* ── WEBGPU STATUS BADGE ── */
+  .gpu-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    margin-left: 8px;
+  }
+  .gpu-badge.active { border-color: rgba(22,163,74,0.25); background: var(--green-light); color: var(--green); }
+  .gpu-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .hero { padding: 3rem 1rem 2rem; }
+    .section { padding: 2rem 1rem; }
+    h1 { font-size: 2rem; }
+    .repos-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand"><span>~/</span>Timoisgr8</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO with WebGPU canvas -->
+<section class="hero" id="about">
+  <canvas id="gpu-canvas"></canvas>
+  <div class="hero-content">
+    <p class="hero-eyebrow">
+      Portfolio
+      <span class="gpu-badge" id="gpu-badge"><span class="gpu-dot"></span><span id="gpu-label">WebGPU</span></span>
+    </p>
+    <h1>Hi, I'm <em>Timo</em> —<br>a developer who builds things.</h1>
+    <p class="hero-bio" id="hero-bio">
+      Passionate about pushing the web forward with modern graphics APIs, creative tooling, and open source projects. Welcome to my corner of GitHub.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        View Projects
+      </a>
+      <a href="https://github.com/Timoisgr8" target="_blank" class="btn btn-outline">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <p class="section-label">Tech Stack</p>
+  <h2>Skills & Technologies</h2>
+  <div class="skills-grid" id="skills-grid">
+    <!-- Populated from GitHub profile + defaults -->
+    <span class="skill-tag featured">WebGPU</span>
+    <span class="skill-tag featured">JavaScript</span>
+    <span class="skill-tag featured">TypeScript</span>
+    <span class="skill-tag">HTML / CSS</span>
+    <span class="skill-tag">WebGL</span>
+    <span class="skill-tag">WGSL</span>
+    <span class="skill-tag">Node.js</span>
+    <span class="skill-tag">Python</span>
+    <span class="skill-tag">React</span>
+    <span class="skill-tag">Git</span>
+    <span class="skill-tag">GitHub Pages</span>
+    <span class="skill-tag">Open Source</span>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <p class="section-label">Open Source</p>
+
+  <div class="repos-header">
+    <h2>Projects</h2>
+    <div id="repo-count" style="font-size:13px;color:var(--text-muted);font-family:var(--mono)"></div>
+  </div>
+
+  <div class="search-box">
+    <span class="search-icon">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </span>
+    <input type="text" id="search-input" placeholder="Search repositories…" oninput="filterRepos()">
+  </div>
+
+  <div class="filter-row" id="lang-filters" style="margin-bottom:1.25rem"></div>
+
+  <div class="repos-grid" id="repos-grid">
+    <!-- Skeleton loaders -->
+    <div class="skeleton-card">
+      <div class="skeleton" style="height:16px;width:60%"></div>
+      <div class="skeleton" style="height:12px;width:90%"></div>
+      <div class="skeleton" style="height:12px;width:70%"></div>
+      <div class="skeleton" style="height:10px;width:40%;margin-top:8px"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton" style="height:16px;width:50%"></div>
+      <div class="skeleton" style="height:12px;width:85%"></div>
+      <div class="skeleton" style="height:12px;width:65%"></div>
+      <div class="skeleton" style="height:10px;width:35%;margin-top:8px"></div>
+    </div>
+    <div class="skeleton-card">
+      <div class="skeleton" style="height:16px;width:70%"></div>
+      <div class="skeleton" style="height:12px;width:80%"></div>
+      <div class="skeleton" style="height:12px;width:55%"></div>
+      <div class="skeleton" style="height:10px;width:45%;margin-top:8px"></div>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:1.5rem">
+    <strong>How filtering works:</strong> Add a <code>.portfolio</code> file to any repo's root. Set <code>display=false</code> to hide it from this portfolio. Set <code>display=true</code> (or omit the file) to show it. Example contents:<br>
+    <code>display=false</code><br>
+    <code>description=A custom description that overrides the GitHub one.</code>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <p class="section-label">Get in Touch</p>
+  <h2>Contact</h2>
+  <p style="font-size:15px;color:var(--text-secondary);margin-top:0.5rem;max-width:460px;line-height:1.7;font-weight:300;">
+    Have a project idea, collaboration request, or just want to say hi? Here's where to find me.
+  </p>
+  <div class="contact-links">
+    <a href="https://github.com/Timoisgr8" target="_blank" class="contact-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      github.com/Timoisgr8
+    </a>
+    <a href="mailto:hello@example.com" class="contact-link" id="email-link">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email me
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>Built with the GitHub API + WebGPU · <a href="https://github.com/Timoisgr8" target="_blank">@Timoisgr8</a> · <span id="footer-year"></span></p>
+</footer>
+
+<script>
+// ─── CONFIG ────────────────────────────────────────────────────────────────
+const GITHUB_USER = 'Timoisgr8';
+const GITHUB_API  = `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`;
+const RAW_BASE    = `https://raw.githubusercontent.com/${GITHUB_USER}`;
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+let allRepos    = [];
+let activeFilter = 'all';
+let languages   = new Set();
+
+// ─── FOOTER YEAR ───────────────────────────────────────────────────────────
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+// ─── LANG COLOR MAP ────────────────────────────────────────────────────────
+const langColors = {
+  JavaScript: '#f1e05a', TypeScript: '#3178c6', Python: '#3572A5',
+  HTML: '#e34c26', CSS: '#563d7c', Rust: '#dea584',
+  Go: '#00ADD8', C: '#555555', 'C++': '#f34b7d', Java: '#b07219',
+  Shell: '#89e051', Vue: '#41b883', Ruby: '#701516',
+  Kotlin: '#A97BFF', Swift: '#F05138', WGSL: '#5E4CDB',
+};
+function getLangColor(lang) {
+  return langColors[lang] || '#8b949e';
+}
+
+// ─── PARSE .portfolio FILE ─────────────────────────────────────────────────
+function parsePortfolioFile(text) {
+  const result = {};
+  text.split('\n').forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) return;
+    const eqIdx = trimmed.indexOf('=');
+    if (eqIdx === -1) return;
+    const key = trimmed.slice(0, eqIdx).trim().toLowerCase();
+    const val = trimmed.slice(eqIdx + 1).trim();
+    result[key] = val;
+  });
+  return result;
+}
+
+// ─── FETCH .portfolio FILE ─────────────────────────────────────────────────
+async function fetchPortfolioFile(repoName, branch) {
+  const branches = branch ? [branch, 'main', 'master'] : ['main', 'master'];
+  for (const b of branches) {
+    try {
+      const res = await fetch(`${RAW_BASE}/${repoName}/${b}/.portfolio`, { cache: 'no-store' });
+      if (res.ok) {
+        const text = await res.text();
+        return parsePortfolioFile(text);
+      }
+    } catch (_) {}
+  }
+  return null; // No .portfolio file found → show repo
+}
+
+// ─── FETCH GITHUB REPOS ────────────────────────────────────────────────────
+async function fetchRepos() {
+  try {
+    const res = await fetch(GITHUB_API);
+    if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+    const repos = await res.json();
+
+    // Fetch .portfolio files in parallel
+    const withPortfolio = await Promise.all(
+      repos.map(async repo => {
+        const pf = await fetchPortfolioFile(repo.name, repo.default_branch);
+        return { repo, portfolio: pf };
+      })
+    );
+
+    // Filter out repos where display=false
+    allRepos = withPortfolio
+      .filter(({ portfolio }) => {
+        if (!portfolio) return true;
+        return portfolio.display !== 'false';
+      })
+      .map(({ repo, portfolio }) => ({
+        ...repo,
+        _portfolioDesc: portfolio?.description || null,
+      }));
+
+    // Build language set
+    allRepos.forEach(r => { if (r.language) languages.add(r.language); });
+
+    // Update profile bio from GitHub
+    fetchProfile();
+
+    renderFilters();
+    renderRepos(allRepos);
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('repos-grid').innerHTML = `
+      <div class="state-box">
+        <span class="state-icon">⚠</span>
+        <p>Couldn't load repositories. Check the console or try again later.</p>
+      </div>`;
+  }
+}
+
+// ─── FETCH GITHUB PROFILE ─────────────────────────────────────────────────
+async function fetchProfile() {
+  try {
+    const res = await fetch(`https://api.github.com/users/${GITHUB_USER}`);
+    if (!res.ok) return;
+    const u = await res.json();
+    if (u.bio) document.getElementById('hero-bio').textContent = u.bio;
+    // Dynamically add languages to skills
+    const grid = document.getElementById('skills-grid');
+    languages.forEach(lang => {
+      if (!grid.querySelector(`[data-lang="${lang}"]`)) {
+        const span = document.createElement('span');
+        span.className = 'skill-tag';
+        span.dataset.lang = lang;
+        span.textContent = lang;
+        grid.appendChild(span);
+      }
+    });
+  } catch (_) {}
+}
+
+// ─── RENDER LANGUAGE FILTERS ──────────────────────────────────────────────
+function renderFilters() {
+  const container = document.getElementById('lang-filters');
+  const all = ['all', ...Array.from(languages).sort()];
+  container.innerHTML = all.map(lang => `
+    <button class="filter-btn ${lang === activeFilter ? 'active' : ''}"
+            onclick="setFilter('${lang}')">${lang === 'all' ? 'All' : lang}</button>
+  `).join('');
+}
+
+function setFilter(lang) {
+  activeFilter = lang;
+  renderFilters();
+  filterRepos();
+}
+
+// ─── FILTER / SEARCH ──────────────────────────────────────────────────────
+function filterRepos() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const filtered = allRepos.filter(r => {
+    const matchLang = activeFilter === 'all' || r.language === activeFilter;
+    const desc = r._portfolioDesc || r.description || '';
+    const matchSearch = !q ||
+      r.name.toLowerCase().includes(q) ||
+      desc.toLowerCase().includes(q) ||
+      (r.language || '').toLowerCase().includes(q);
+    return matchLang && matchSearch;
+  });
+  renderRepos(filtered);
+}
+
+// ─── TIME AGO ─────────────────────────────────────────────────────────────
+function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const s = Math.floor(diff / 1000);
+  if (s < 60) return `${s}s ago`;
+  const m = Math.floor(s / 60); if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60); if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h / 24); if (d < 30) return `${d}d ago`;
+  const mo = Math.floor(d / 30); if (mo < 12) return `${mo}mo ago`;
+  return `${Math.floor(mo / 12)}y ago`;
+}
+
+// ─── RENDER REPOS ─────────────────────────────────────────────────────────
+function renderRepos(repos) {
+  const grid = document.getElementById('repos-grid');
+  const count = document.getElementById('repo-count');
+
+  count.textContent = `${repos.length} repo${repos.length !== 1 ? 's' : ''}`;
+
+  if (repos.length === 0) {
+    grid.innerHTML = `<div class="state-box"><span class="state-icon">○</span><p>No repositories match your search.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = repos.map(repo => {
+    const desc = repo._portfolioDesc || repo.description || '';
+    const lang = repo.language || '';
+    const color = getLangColor(lang);
+    return `
+      <a class="repo-card" href="${repo.html_url}" target="_blank" rel="noopener">
+        <div class="repo-header">
+          <span class="repo-name">${escHtml(repo.name)}</span>
+          ${repo.fork ? '<span class="repo-visibility" style="background:var(--amber-light);color:var(--amber)">fork</span>' : ''}
+          ${repo.archived ? '<span class="repo-visibility" style="background:#f5f5f5;color:#999">archived</span>' : ''}
+        </div>
+        ${desc ? `<p class="repo-desc">${escHtml(desc)}</p>` : `<p class="repo-desc" style="color:var(--text-muted);font-style:italic">No description</p>`}
+        <div class="repo-footer">
+          <span class="repo-stat">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            ${repo.stargazers_count}
+          </span>
+          <span class="repo-stat">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg>
+            ${repo.forks_count}
+          </span>
+          ${lang ? `
+            <span class="repo-lang">
+              <span class="lang-dot" style="background:${color}"></span>
+              ${escHtml(lang)}
+            </span>` : ''}
+        </div>
+        <p class="repo-updated">Updated ${timeAgo(repo.updated_at)}</p>
+      </a>`;
+  }).join('');
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ─── WEBGPU PARTICLE BACKGROUND ───────────────────────────────────────────
+async function initWebGPU() {
+  const badge = document.getElementById('gpu-badge');
+  const label = document.getElementById('gpu-label');
+  const canvas = document.getElementById('gpu-canvas');
+
+  if (!navigator.gpu) {
+    label.textContent = 'WebGL fallback';
+    initWebGLFallback(canvas);
+    return;
+  }
+
+  try {
+    const adapter = await navigator.gpu.requestAdapter();
+    if (!adapter) throw new Error('No adapter');
+    const device  = await adapter.requestDevice();
+    const ctx     = canvas.getContext('webgpu');
+    const fmt     = navigator.gpu.getPreferredCanvasFormat();
+
+    const resize = () => {
+      canvas.width  = canvas.clientWidth  * devicePixelRatio;
+      canvas.height = canvas.clientHeight * devicePixelRatio;
+      ctx.configure({ device, format: fmt, alphaMode: 'premultiplied' });
+    };
+    resize();
+    new ResizeObserver(resize).observe(canvas);
+
+    // Badge
+    badge.classList.add('active');
+    label.textContent = 'WebGPU active';
+
+    // ── Particle simulation (compute + render) ──
+    const NUM_PARTICLES = 512;
+    const STRIDE = 4; // x, y, vx, vy
+
+    // Initial particle data
+    const init = new Float32Array(NUM_PARTICLES * STRIDE);
+    for (let i = 0; i < NUM_PARTICLES; i++) {
+      init[i * STRIDE + 0] = Math.random() * 2 - 1;  // x
+      init[i * STRIDE + 1] = Math.random() * 2 - 1;  // y
+      init[i * STRIDE + 2] = (Math.random() - 0.5) * 0.004; // vx
+      init[i * STRIDE + 3] = (Math.random() - 0.5) * 0.004; // vy
+    }
+
+    const buf = device.createBuffer({
+      size: init.byteLength,
+      usage: GPUBufferUsage.STORAGE | GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
+    });
+    device.queue.writeBuffer(buf, 0, init);
+
+    const uniformBuf = device.createBuffer({
+      size: 8,
+      usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+    });
+
+    // ── Compute shader ──
+    const computeModule = device.createShaderModule({ code: `
+      struct Particle { x:f32, y:f32, vx:f32, vy:f32 }
+      struct Uniforms { aspect:f32, t:f32 }
+      @group(0) @binding(0) var<storage, read_write> particles: array<Particle>;
+      @group(0) @binding(1) var<uniform> u: Uniforms;
+
+      @compute @workgroup_size(64)
+      fn main(@builtin(global_invocation_id) gid: vec3<u32>) {
+        let i = gid.x;
+        if (i >= ${NUM_PARTICLES}u) { return; }
+        var p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        // Soft wrap
+        if (p.x > 1.05)  { p.x = -1.05; }
+        if (p.x < -1.05) { p.x =  1.05; }
+        if (p.y > 1.05)  { p.y = -1.05; }
+        if (p.y < -1.05) { p.y =  1.05; }
+        particles[i] = p;
+      }
+    ` });
+
+    // ── Render shader ──
+    const renderModule = device.createShaderModule({ code: `
+      struct Particle { x:f32, y:f32, vx:f32, vy:f32 }
+      @group(0) @binding(0) var<storage, read> particles: array<Particle>;
+
+      struct VSOut { @builtin(position) pos: vec4<f32>, @location(0) alpha: f32 }
+
+      @vertex
+      fn vs(@builtin(vertex_index) vi: u32) -> VSOut {
+        let p = particles[vi];
+        let speed = sqrt(p.vx*p.vx + p.vy*p.vy) * 500.0;
+        return VSOut(vec4<f32>(p.x, p.y, 0.0, 1.0), clamp(speed, 0.2, 1.0));
+      }
+
+      @fragment
+      fn fs(@location(0) alpha: f32) -> @location(0) vec4<f32> {
+        return vec4<f32>(0.15, 0.42, 0.92, alpha * 0.55);
+      }
+    ` });
+
+    const bindGroupLayout = device.createBindGroupLayout({
+      entries: [
+        { binding: 0, visibility: GPUShaderStage.COMPUTE | GPUShaderStage.VERTEX, buffer: { type: 'storage' } },
+        { binding: 1, visibility: GPUShaderStage.COMPUTE, buffer: { type: 'uniform' } },
+      ],
+    });
+    const renderBindLayout = device.createBindGroupLayout({
+      entries: [
+        { binding: 0, visibility: GPUShaderStage.VERTEX, buffer: { type: 'read-only-storage' } },
+      ],
+    });
+
+    const computePipeline = device.createComputePipeline({
+      layout: device.createPipelineLayout({ bindGroupLayouts: [bindGroupLayout] }),
+      compute: { module: computeModule, entryPoint: 'main' },
+    });
+    const renderPipeline = device.createRenderPipeline({
+      layout: device.createPipelineLayout({ bindGroupLayouts: [renderBindLayout] }),
+      vertex:   { module: renderModule, entryPoint: 'vs' },
+      fragment: { module: renderModule, entryPoint: 'fs', targets: [{
+        format: fmt,
+        blend: { color: { srcFactor: 'src-alpha', dstFactor: 'one-minus-src-alpha' }, alpha: { srcFactor: 'one', dstFactor: 'one-minus-src-alpha' } }
+      }]},
+      primitive: { topology: 'point-list' },
+    });
+
+    const computeBindGroup = device.createBindGroup({
+      layout: bindGroupLayout,
+      entries: [
+        { binding: 0, resource: { buffer: buf } },
+        { binding: 1, resource: { buffer: uniformBuf } },
+      ],
+    });
+    const renderBindGroup = device.createBindGroup({
+      layout: renderBindLayout,
+      entries: [{ binding: 0, resource: { buffer: buf } }],
+    });
+
+    let t = 0;
+    const frame = () => {
+      t++;
+      const aspect = canvas.width / canvas.height;
+      device.queue.writeBuffer(uniformBuf, 0, new Float32Array([aspect, t * 0.01]));
+
+      const cmd = device.createCommandEncoder();
+
+      // Compute pass
+      const cp = cmd.beginComputePass();
+      cp.setPipeline(computePipeline);
+      cp.setBindGroup(0, computeBindGroup);
+      cp.dispatchWorkgroups(Math.ceil(NUM_PARTICLES / 64));
+      cp.end();
+
+      // Render pass
+      const tex = ctx.getCurrentTexture().createView();
+      const rp = cmd.beginRenderPass({
+        colorAttachments: [{
+          view: tex,
+          clearValue: { r: 0, g: 0, b: 0, a: 0 },
+          loadOp: 'clear', storeOp: 'store',
+        }],
+      });
+      rp.setPipeline(renderPipeline);
+      rp.setBindGroup(0, renderBindGroup);
+      rp.draw(NUM_PARTICLES);
+      rp.end();
+
+      device.queue.submit([cmd.finish()]);
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+
+  } catch (e) {
+    console.warn('WebGPU init failed:', e);
+    label.textContent = 'WebGL fallback';
+    initWebGLFallback(canvas);
+  }
+}
+
+// ─── WEBGL FALLBACK ───────────────────────────────────────────────────────
+function initWebGLFallback(canvas) {
+  const gl = canvas.getContext('webgl');
+  if (!gl) return;
+
+  const resize = () => { canvas.width = canvas.clientWidth * devicePixelRatio; canvas.height = canvas.clientHeight * devicePixelRatio; };
+  resize();
+  new ResizeObserver(resize).observe(canvas);
+
+  const N = 300;
+  const pos = new Float32Array(N * 2);
+  const vel = new Float32Array(N * 2);
+  for (let i = 0; i < N; i++) {
+    pos[i*2]   = Math.random()*2-1; pos[i*2+1] = Math.random()*2-1;
+    vel[i*2]   = (Math.random()-0.5)*0.004; vel[i*2+1] = (Math.random()-0.5)*0.004;
+  }
+
+  const vs = `attribute vec2 a_pos; void main(){gl_Position=vec4(a_pos,0,1);gl_PointSize=2.0;}`;
+  const fs = `precision mediump float; void main(){gl_FragColor=vec4(0.15,0.42,0.92,0.5);}`;
+
+  const prog = gl.createProgram();
+  [vs, fs].forEach((src, i) => {
+    const sh = gl.createShader(i === 0 ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER);
+    gl.shaderSource(sh, src); gl.compileShader(sh); gl.attachShader(prog, sh);
+  });
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  const loc = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  const frame = () => {
+    for (let i = 0; i < N; i++) {
+      pos[i*2]   += vel[i*2];   pos[i*2+1] += vel[i*2+1];
+      if (pos[i*2]   > 1.05) pos[i*2]   = -1.05;
+      if (pos[i*2]   < -1.05) pos[i*2]  =  1.05;
+      if (pos[i*2+1] > 1.05) pos[i*2+1] = -1.05;
+      if (pos[i*2+1] < -1.05) pos[i*2+1] =  1.05;
+    }
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.bufferData(gl.ARRAY_BUFFER, pos, gl.DYNAMIC_DRAW);
+    gl.drawArrays(gl.POINTS, 0, N);
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+}
+
+// ─── BOOT ─────────────────────────────────────────────────────────────────
+fetchRepos();
+initWebGPU();
+</script>
+</body>
+</html>
